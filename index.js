@@ -1,7 +1,8 @@
 var SERVER_NAME = 'patient-api'
 var PORT = 8000;
 var HOST = '127.0.0.1';
-
+var countPost = 0;
+var countGet = 0;
 
 var restify = require('restify')
 
@@ -15,7 +16,9 @@ var restify = require('restify')
   console.log('Server %s listening at %s', server.name, server.url)
   console.log('Resources:')
   console.log(' /patients')
-  console.log(' /patients/:id')  
+  console.log(' /patients/:id')
+  console.log( 'Post Counter:' + countPost )
+  console.log('Get Counter: ' + countGet)  
 })
 
 server
@@ -33,6 +36,9 @@ server.get('/patients', function (req, res, next) {
 
     // Return all of the patients in the system
     res.send(patients)
+    countGet++;
+    console.log( 'Post Counter:' + countPost )
+    console.log('Get Counter: ' + countGet)  
   })
 })
 
@@ -52,6 +58,9 @@ server.get('/patients/:id', function (req, res, next) {
       // Send 404 header if the patient doesn't exist
       res.send(404)
     }
+    countGet++;
+    console.log( 'Post Counter:' + countPost )
+    console.log('Get Counter: ' + countGet)  
   })
 })
 
@@ -70,7 +79,10 @@ server.post('/patients', function (req, res, next) {
   var newPatient = {
 		name: req.params.name, 
 		age: req.params.age
-	}
+  }
+  countPost++
+  console.log( 'Post Counter:' + countPost )
+  console.log('Get Counter: ' + countGet)  
 
   // Create the Patient using the persistence engine
   patientsSave.create( newPatient, function (error, patient) {
