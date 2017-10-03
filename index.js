@@ -3,6 +3,8 @@ var PORT = 8000;
 var HOST = '127.0.0.1';
 var countPost = 0;
 var countGet = 0;
+var countUpdate = 0;
+var countDelete = 0;
 
 var restify = require('restify')
 
@@ -14,11 +16,14 @@ var restify = require('restify')
 
   server.listen(PORT, HOST, function () {
   console.log('Server %s listening at %s', server.name, server.url)
-  console.log('Resources:')
+  console.log('Resources for get/post/delete:')
   console.log(' /patients')
   console.log(' /patients/:id')
-  console.log( 'Post Counter:' + countPost )
-  console.log('Get Counter: ' + countGet)  
+  console.log('Number of Get request: ' + countGet)  
+  console.log('Number of Post request:' + countPost)  
+  console.log('Number of Update request:' + countUpdate)
+  console.log('Number of Delete request: ' + countDelete)  
+
 })
 
 server
@@ -36,10 +41,13 @@ server.get('/patients', function (req, res, next) {
 
     // Return all of the patients in the system
     res.send(patients)
+    console.log('Received a Get request')    
     countGet++;
-    console.log( 'Post Counter:' + countPost )
-    console.log('Get Counter: ' + countGet)  
-  })
+    console.log('Number of Get request: ' + countGet)  
+    console.log('Number of Post request:' + countPost)  
+    console.log('Number of Update request:' + countUpdate)
+    console.log('Number of Delete request: ' + countDelete)  
+    })
 })
 
 // Get a single patient by their patient id
@@ -59,9 +67,12 @@ server.get('/patients/:id', function (req, res, next) {
       res.send(404)
     }
     countGet++;
-    console.log( 'Post Counter:' + countPost )
-    console.log('Get Counter: ' + countGet)  
-  })
+    console.log('Received a Get request by ID')        
+    console.log('Number of Get request: ' + countGet)  
+    console.log('Number of Post request:' + countPost)  
+    console.log('Number of Update request:' + countUpdate)
+    console.log('Number of Delete request: ' + countDelete)  
+    })
 })
 
 // Create a new patient
@@ -80,9 +91,12 @@ server.post('/patients', function (req, res, next) {
 		name: req.params.name, 
 		age: req.params.age
   }
+  console.log('Received a Post request')      
   countPost++
-  console.log( 'Post Counter:' + countPost )
-  console.log('Get Counter: ' + countGet)  
+  console.log('Number of Get request: ' + countGet)  
+  console.log('Number of Post request:' + countPost)  
+  console.log('Number of Update request:' + countUpdate)
+  console.log('Number of Delete request: ' + countDelete)  
 
   // Create the Patient using the persistence engine
   patientsSave.create( newPatient, function (error, patient) {
@@ -123,6 +137,13 @@ server.put('/patients/:id', function (req, res, next) {
     // Send a 200 OK response
     res.send(200)
   })
+  countUpdate++
+  console.log('Received an Update request')      
+  console.log('Number of Get request: ' + countGet)  
+  console.log('Number of Post request:' + countPost)  
+  console.log('Number of Update request:' + countUpdate)
+  console.log('Number of Delete request: ' + countDelete)  
+
 })
 
 // Delete patient with the given id
@@ -137,6 +158,13 @@ server.del('/patients/:id', function (req, res, next) {
     // Send a 200 OK response
     res.send()
   })
+  countDelete++
+  console.log('Received a Delete request')      
+  console.log('Number of Get request: ' + countGet)  
+  console.log('Number of Post request:' + countPost)  
+  console.log('Number of Update request:' + countUpdate)
+  console.log('Number of Delete request: ' + countDelete)  
+
 })
 
 
