@@ -15,10 +15,13 @@ var restify = require('restify')
   , server = restify.createServer({ name: SERVER_NAME})
 
   server.listen(PORT, HOST, function () {
+  console.log(' ')
   console.log('Server %s listening at %s', server.name, server.url)
+  console.log(' ')
   console.log('Resources for get/post/delete:')
-  console.log(' /products')
-  console.log(' /products/:id')
+  console.log(server.url + '/products')
+  console.log(server.url + '/products/:id')
+  console.log(' ')
   console.log('Number of Get request: ' + countGet)  
   console.log('Number of Post request:' + countPost)  
   console.log('Number of Update request:' + countUpdate)
@@ -41,6 +44,7 @@ server.get('/products', function (req, res, next) {
 
     // Return all of the products in the system
     res.send(products)
+    console.log(' ')
     console.log('Received a Get request')    
     countGet++;
     console.log('Number of Get request: ' + countGet)  
@@ -67,6 +71,7 @@ server.get('/products/:id', function (req, res, next) {
       res.send(404)
     }
     countGet++;
+    console.log(' ')    
     console.log('Received a Get request by ID')        
     console.log('Number of Get request: ' + countGet)  
     console.log('Number of Post request:' + countPost)  
@@ -91,6 +96,7 @@ server.post('/products', function (req, res, next) {
 		productname: req.params.productname, 
 		price: req.params.price
   }
+  console.log(' ')  
   console.log('Received a Post request')      
   countPost++
   console.log('Number of Get request: ' + countGet)  
@@ -138,6 +144,7 @@ server.put('/products/:id', function (req, res, next) {
     res.send(200)
   })
   countUpdate++
+  console.log(' ')  
   console.log('Received an Update request')      
   console.log('Number of Get request: ' + countGet)  
   console.log('Number of Post request:' + countPost)  
@@ -159,6 +166,7 @@ server.del('/products/:id', function (req, res, next) {
     res.send()
   })
   countDelete++
+  console.log(' ')  
   console.log('Received a Delete request')      
   console.log('Number of Get request: ' + countGet)  
   console.log('Number of Post request:' + countPost)  
